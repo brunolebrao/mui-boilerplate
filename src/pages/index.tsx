@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core'
+import CircularProgress from '@mui/material/CircularProgress'
 import { useQuery } from 'react-query'
 import { getProducts } from 'services/productsApi'
 const Home = () => {

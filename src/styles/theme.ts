@@ -1,11 +1,19 @@
-export const theme = {
-  colors: {
+import { createTheme } from '@mui/material/styles'
+import { red } from '@mui/material/colors'
+
+// Create a theme instance.
+const theme = createTheme({
+  palette: {
     primary: {
-      main: '#06092b'
+      main: '#556cd6'
     },
-    commons: {
-      black: '#000',
-      white: '#fff'
+    secondary: {
+      main: '#19857b'
+    },
+    error: {
+      main: red.A400
     }
   }
-}
+})
+
+export default theme

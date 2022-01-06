@@ -1,28 +1,35 @@
-import React from 'react'
-import type { AppProps } from 'next/app'
+import * as React from 'react'
 import Head from 'next/head'
-import { ThemeProvider } from 'styled-components'
-import GlobalStyle from 'styles/global'
-import { theme } from 'styles/theme'
-import CssBaseline from '@material-ui/core/CssBaseline'
+import { AppProps } from 'next/app'
+import { ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
+import { CacheProvider, EmotionCache } from '@emotion/react'
+import theme from '../styles/theme'
+import createEmotionCache from '../styles/createEmotionCache'
 import { QueryClientProvider, QueryClient } from 'react-query'
 
 const client = new QueryClient()
 
-function App({ Component, pageProps }: AppProps) {
+const clientSideEmotionCache = createEmotionCache()
+
+interface MyAppProps extends AppProps {
+  emotionCache?: EmotionCache
+}
+
+function App(props: MyAppProps) {
+  const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
   return (
     <QueryClientProvider client={client}>
-      <ThemeProvider theme={theme}>
+      <CacheProvider value={emotionCache}>
         <Head>
-          <title>Mui-Boilerplate</title>
-          <link rel="shortcut icon" href="/img/icon-512.png" />
-          <link rel="apple-touch-icon" href="/img/icon-512.png" />
-          <meta name="theme-color" content="#06092B" />
+          <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
-        <Component {...pageProps} />
-        <GlobalStyle />
-        <CssBaseline />
-      </ThemeProvider>
+        <ThemeProvider theme={theme}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </CacheProvider>
     </QueryClientProvider>
   )
 }
